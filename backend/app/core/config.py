@@ -22,10 +22,8 @@ class Settings(BaseSettings):
 
     API_V1_PREFIX: str = "/api/v1"
 
-    DATABASE_URL: str = (
-        "postgresql://postgres:postgres@localhost:5432/portfolio_db"
-    )
-
+    DATABASE_URL: str
+    
     class Config:
         env_file = ".env"
 

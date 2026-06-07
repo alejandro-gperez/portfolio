@@ -13,11 +13,23 @@ from fastapi import FastAPI
 from app.api.v1.router import api_router
 from app.core.config import settings
 
+from contextlib import asynccontextmanager
+from app.core.database import create_db_and_tables
+
 # ------------------------------------------------------------------
 # Application Initialization
 # ------------------------------------------------------------------
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Application startup lifecycle.
+    """
+    create_db_and_tables()
+    yield
+
 app = FastAPI(
+    lifespan=lifespan,
     title=settings.PROJECT_NAME,
     description=settings.PROJECT_DESCRIPTION,
     version=settings.VERSION,
@@ -74,3 +86,4 @@ def health_check() -> dict[str, str]:
     return {
         "status": "healthy",
     }
+
