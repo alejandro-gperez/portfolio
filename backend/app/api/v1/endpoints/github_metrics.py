@@ -1,26 +1,33 @@
 """
 GitHub metrics API endpoints.
-
-Provides analytics generated from GitHub activity
-and data pipeline processing.
 """
 
 from fastapi import APIRouter
 
+from app.schemas.github_metric import GitHubMetricResponse
+
 router = APIRouter()
 
 
-@router.get("/")
-def get_github_metrics() -> dict:
+@router.get("/", response_model=list[GitHubMetricResponse])
+def get_github_metrics() -> list[GitHubMetricResponse]:
     """
-    Retrieve GitHub activity metrics.
+    Retrieve GitHub analytics.
 
     Returns:
-        dict: Aggregated GitHub statistics.
+        list[GitHubMetricResponse]: GitHub statistics.
     """
-    return {
-        "repositories": 12,
-        "commits_this_year": 542,
-        "pull_requests": 36,
-        "stars_received": 18,
-    }
+    return [
+        GitHubMetricResponse(
+            metric_name="Repositories",
+            metric_value=12,
+        ),
+        GitHubMetricResponse(
+            metric_name="Commits This Year",
+            metric_value=542,
+        ),
+        GitHubMetricResponse(
+            metric_name="Pull Requests",
+            metric_value=36,
+        ),
+    ]

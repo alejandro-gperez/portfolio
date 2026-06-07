@@ -1,38 +1,43 @@
 """
 Skills API endpoints.
 
-Provides categorized technical skills used in the
-Engineering Overview section of the portfolio.
+Provides categorized technical skills.
 """
 
 from fastapi import APIRouter
 
+from app.schemas.skill import SkillResponse
+
 router = APIRouter()
 
 
-@router.get("/")
-def get_skills() -> list[dict]:
+@router.get("/", response_model=list[SkillResponse])
+def get_skills() -> list[SkillResponse]:
     """
-    Retrieve the complete list of technical skills.
+    Retrieve technical skills.
 
     Returns:
-        list[dict]: Technical skills grouped by category.
+        list[SkillResponse]: Portfolio skills.
     """
     return [
-        {
-            "name": "FastAPI",
-            "category": "Backend",
-        },
-        {
-            "name": "PostgreSQL",
-            "category": "Database",
-        },
-        {
-            "name": "Docker",
-            "category": "DevOps",
-        },
-        {
-            "name": "Pandas",
-            "category": "Data",
-        },
+        SkillResponse(
+            name="FastAPI",
+            category="Backend",
+            level=5,
+        ),
+        SkillResponse(
+            name="PostgreSQL",
+            category="Database",
+            level=4,
+        ),
+        SkillResponse(
+            name="Docker",
+            category="DevOps",
+            level=4,
+        ),
+        SkillResponse(
+            name="Pandas",
+            category="Data",
+            level=4,
+        ),
     ]

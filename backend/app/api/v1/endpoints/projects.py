@@ -1,32 +1,52 @@
 """
 Projects API endpoints.
-
-Provides project information showcased in the portfolio.
 """
 
 from fastapi import APIRouter
 
+from app.schemas.project import (
+    FeatureResponse,
+    ProjectResponse,
+)
+
 router = APIRouter()
 
 
-@router.get("/")
-def get_projects() -> list[dict]:
+@router.get("/", response_model=list[ProjectResponse])
+def get_projects() -> list[ProjectResponse]:
     """
     Retrieve featured portfolio projects.
 
     Returns:
-        list[dict]: Project summaries.
+        list[ProjectResponse]: Portfolio projects.
     """
     return [
-        {
-            "id": 1,
-            "name": "Portfolio SaaS",
-            "status": "In Progress",
-            "featured": True,
-            "stack": [
+        ProjectResponse(
+            id=1,
+            name="Portfolio SaaS",
+            description="Personal backend-focused portfolio platform.",
+            status="In Progress",
+            featured=True,
+            github_url="https://github.com/your-username/portfolio-saas",
+            demo_url=None,
+            stack=[
                 "FastAPI",
                 "PostgreSQL",
                 "React",
             ],
-        }
+            features=[
+                FeatureResponse(
+                    name="REST API",
+                ),
+                FeatureResponse(
+                    name="GitHub Analytics",
+                ),
+                FeatureResponse(
+                    name="Event Tracking",
+                ),
+                FeatureResponse(
+                    name="Observability Dashboard",
+                ),
+            ],
+        )
     ]

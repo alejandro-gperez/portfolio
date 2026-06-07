@@ -1,26 +1,37 @@
 """
 Metrics API endpoints.
-
-Provides dashboard metrics used in the Engineering
-Overview section.
 """
 
 from fastapi import APIRouter
 
+from app.schemas.metric import MetricResponse
+
 router = APIRouter()
 
 
-@router.get("/")
-def get_metrics() -> dict:
+@router.get("/", response_model=list[MetricResponse])
+def get_metrics() -> list[MetricResponse]:
     """
-    Retrieve portfolio summary metrics.
+    Retrieve engineering dashboard metrics.
 
     Returns:
-        dict: High-level engineering metrics.
+        list[MetricResponse]: Dashboard metrics.
     """
-    return {
-        "projects": 1,
-        "apis": 1,
-        "databases": 1,
-        "years_coding": 3,
-    }
+    return [
+        MetricResponse(
+            name="Projects",
+            value=1,
+        ),
+        MetricResponse(
+            name="APIs",
+            value=6,
+        ),
+        MetricResponse(
+            name="Databases",
+            value=1,
+        ),
+        MetricResponse(
+            name="Years Coding",
+            value=3,
+        ),
+    ]
