@@ -11,19 +11,16 @@ support future iterations without breaking existing consumers.
 from fastapi import FastAPI
 
 from app.api.v1.router import api_router
+from app.core.config import settings
 
 # ------------------------------------------------------------------
 # Application Initialization
 # ------------------------------------------------------------------
 
 app = FastAPI(
-    title="Alejandro Portfolio API",
-    description=(
-        "Backend API powering the Portfolio SaaS platform. "
-        "Provides profile information, project data, GitHub analytics, "
-        "dashboard metrics, and activity tracking."
-    ),
-    version="1.0.0",
+    title=settings.PROJECT_NAME,
+    description=settings.PROJECT_DESCRIPTION,
+    version=settings.VERSION,
 )
 
 # ------------------------------------------------------------------
@@ -34,7 +31,7 @@ app = FastAPI(
 # This makes future API versioning straightforward and predictable.
 app.include_router(
     api_router,
-    prefix="/api/v1",
+    prefix=settings.API_V1_PREFIX,
 )
 
 # ------------------------------------------------------------------
