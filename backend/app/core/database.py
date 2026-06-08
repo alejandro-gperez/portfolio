@@ -13,10 +13,17 @@ from app.core.config import settings
 
 # Import models so SQLModel registers them.
 from app.models.profile import Profile
+from app.models.skill import Skill
+from app.models.project import Project
+from app.models.feature import Feature
 
 from sqlmodel import Session
 
-from app.core.seed import seed_profile
+from app.core.seed import (
+    seed_profile,
+    seed_skills,
+    seed_projects,
+)
 
 engine = create_engine(
     settings.DATABASE_URL,
@@ -31,6 +38,10 @@ def create_db_and_tables() -> None:
     SQLModel.metadata.create_all(engine)
     with Session(engine) as session:
         seed_profile(session)
+    with Session(engine) as session:
+        seed_profile(session)
+        seed_skills(session)
+        seed_projects(session)
 
 
 def get_session():
