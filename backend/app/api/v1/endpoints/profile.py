@@ -6,27 +6,41 @@ the portfolio application.
 """
 
 from fastapi import APIRouter
+from fastapi import Depends
+from fastapi import HTTPException
 
+from sqlmodel import Session
+
+from app.core.database import get_session
 from app.schemas.profile import ProfileResponse
+from app.services.profile_service import ProfileService
 
 router = APIRouter()
 
 
 @router.get("/", response_model=ProfileResponse)
-def get_profile() -> ProfileResponse:
+def get_profile(
+    session: Session = Depends(get_session),
+) -> ProfileResponse:
     """
-    Retrieve public profile information.
+    Retrieve profile information.
+    """
 
-    Returns:
-        ProfileResponse: Developer profile data.
-    """
+    profile = ProfileService.get_profile(session)
+
+    if profile is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Profile not found",
+        )
+
     return ProfileResponse(
-        name="Alejandro Perez",
-        title="Backend Engineer",
-        bio="Building APIs, data pipelines and scalable systems.",
-        github_url="https://github.com/your-username",
-        linkedin_url="https://linkedin.com/in/your-profile",
-        email="your-email@example.com",
-        location="Guatemala",
-        profile_image_url="https://example.com/profile.jpg",
+        name=profile.name,
+        title=profile.title,
+        bio=profile.bio,
+        github_url=profile.github_url,
+        linkedin_url=profile.linkedin_url,
+        email=profile.email,
+        location=profile.location,
+        profile_image_url=profile.profile_image_url,
     )
