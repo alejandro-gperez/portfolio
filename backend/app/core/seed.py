@@ -9,6 +9,7 @@ from app.models.profile import Profile
 from app.models.skill import Skill
 from app.models.project import Project
 from app.models.feature import Feature
+from app.models.event import Event
 
 
 def seed_profile(session: Session) -> None:
@@ -126,5 +127,44 @@ def seed_projects(session: Session) -> None:
     ]
 
     session.add_all(features)
+
+    session.commit()
+
+def seed_events(session: Session) -> None:
+    """
+    Seed portfolio activity events.
+    """
+
+    existing = session.exec(
+        select(Event)
+    ).first()
+
+    if existing:
+        return
+
+    events = [
+        Event(
+            event_type="PROJECT_CREATED",
+            description="Portfolio SaaS project initialized.",
+        ),
+        Event(
+            event_type="DEPLOYMENT",
+            description="Initial API deployment completed.",
+        ),
+        Event(
+            event_type="DATABASE_CONNECTED",
+            description="PostgreSQL integration completed.",
+        ),
+        Event(
+            event_type="FEATURE_ADDED",
+            description="Project-feature relationships implemented.",
+        ),
+        Event(
+            event_type="API_RELEASE",
+            description="Version 1 API endpoints released.",
+        ),
+    ]
+
+    session.add_all(events)
 
     session.commit()
