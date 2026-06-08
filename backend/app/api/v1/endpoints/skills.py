@@ -5,39 +5,36 @@ Provides categorized technical skills.
 """
 
 from fastapi import APIRouter
+from fastapi import Depends
 
+from sqlmodel import Session
+
+from app.core.database import get_session
 from app.schemas.skill import SkillResponse
+from app.services.skill_service import SkillService
 
 router = APIRouter()
 
 
 @router.get("/", response_model=list[SkillResponse])
-def get_skills() -> list[SkillResponse]:
+def get_skills(
+    session: Session = Depends(get_session),
+) -> list[SkillResponse]:
     """
-    Retrieve technical skills.
+    Retrieve all technical skills.
 
     Returns:
         list[SkillResponse]: Portfolio skills.
     """
+    skills = SkillService.get_all_skills(
+        session
+    )
+
     return [
         SkillResponse(
-            name="FastAPI",
-            category="Backend",
-            level=5,
-        ),
-        SkillResponse(
-            name="PostgreSQL",
-            category="Database",
-            level=4,
-        ),
-        SkillResponse(
-            name="Docker",
-            category="DevOps",
-            level=4,
-        ),
-        SkillResponse(
-            name="Pandas",
-            category="Data",
-            level=4,
-        ),
+            name=skill.name,
+            category=skill.category,
+            level=skill.level,
+        )
+        for skill in skills
     ]

@@ -29,10 +29,7 @@ def get_projects(
     session: Session = Depends(get_session),
 ) -> list[ProjectResponse]:
     """
-    Retrieve featured portfolio projects.
-
-    Returns:
-        list[ProjectResponse]: Portfolio projects.
+    Retrieve featured projects.
     """
 
     projects = (
@@ -50,7 +47,7 @@ def get_projects(
             featured=project.featured,
             github_url=project.github_url,
             demo_url=project.demo_url,
-            stack=[],
+            stack=[],  # temporal
             features=[
                 FeatureResponse(
                     name=feature.name

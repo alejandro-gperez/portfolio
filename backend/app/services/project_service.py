@@ -30,21 +30,9 @@ class ProjectService:
         """
         statement = select(Project)
 
-        projects = list(
+        return list(
             session.exec(statement).all()
         )
-
-        for project in projects:
-            print(
-                f"Project: {project.name}"
-            )
-
-            for feature in project.features:
-                print(
-                    f"  Feature: {feature.name}"
-                )
-
-        return projects
     
     @staticmethod
     def get_featured_projects(
