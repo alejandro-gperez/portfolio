@@ -19,6 +19,7 @@ from app.models.feature import Feature
 from app.models.event import Event
 from app.models.metric import Metric
 from app.models.github_metric import GitHubMetric
+from app.models.github_language import GitHubLanguage
 
 from app.models.technology import (
     Technology,

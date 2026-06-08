@@ -12,7 +12,9 @@ class Settings(BaseSettings):
     Application settings loaded from environment variables.
     """
 
-    PROJECT_NAME: str = "Alejandro Portfolio API"
+    PROJECT_NAME: str = (
+        "Alejandro Portfolio API"
+    )
 
     PROJECT_DESCRIPTION: str = (
         "Backend API powering the Portfolio SaaS platform."
@@ -23,7 +25,15 @@ class Settings(BaseSettings):
     API_V1_PREFIX: str = "/api/v1"
 
     DATABASE_URL: str
-    
+
+    # ----------------------------------
+    # GitHub Integration
+    # ----------------------------------
+
+    GITHUB_USERNAME: str
+
+    GITHUB_TOKEN: str
+
     class Config:
         env_file = ".env"
 
