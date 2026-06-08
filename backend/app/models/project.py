@@ -11,6 +11,9 @@ from sqlmodel import Relationship
 if TYPE_CHECKING:
     from app.models.feature import Feature
 
+from app.models.project_technology import (
+    ProjectTechnology,
+)
 
 class Project(SQLModel, table=True):
     """
@@ -38,4 +41,10 @@ class Project(SQLModel, table=True):
 
     features: list["Feature"] = Relationship(
     back_populates="project"
-)
+    )
+
+    technologies: list[
+        "ProjectTechnology"
+    ] = Relationship(
+        back_populates="project"
+    )

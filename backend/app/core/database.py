@@ -20,6 +20,14 @@ from app.models.event import Event
 from app.models.metric import Metric
 from app.models.github_metric import GitHubMetric
 
+from app.models.technology import (
+    Technology,
+)
+
+from app.models.project_technology import (
+    ProjectTechnology,
+)
+
 from sqlmodel import Session
 
 from app.core.seed import (
@@ -29,6 +37,8 @@ from app.core.seed import (
     seed_events,
     seed_metrics,
     seed_github_metrics,
+    seed_technologies,
+    seed_project_technologies
 )
 
 engine = create_engine(
@@ -49,6 +59,8 @@ def create_db_and_tables() -> None:
         seed_events(session)
         seed_metrics(session)
         seed_github_metrics(session)
+        seed_technologies(session)
+        seed_project_technologies(session)
 
 
 def get_session():

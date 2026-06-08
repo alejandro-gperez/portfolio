@@ -13,6 +13,14 @@ from app.models.event import Event
 from app.models.metric import Metric
 from app.models.github_metric import GitHubMetric
 
+from app.models.technology import (
+    Technology,
+)
+
+from app.models.project_technology import (
+    ProjectTechnology,
+)
+
 
 def seed_profile(session: Session) -> None:
     """
@@ -240,5 +248,78 @@ def seed_github_metrics(
     ]
 
     session.add_all(metrics)
+
+    session.commit()
+
+def seed_technologies(
+    session: Session,
+) -> None:
+    """
+    Seed technologies.
+    """
+
+    existing = session.exec(
+        select(Technology)
+    ).first()
+
+    if existing:
+        return
+
+    technologies = [
+        Technology(
+            name="FastAPI",
+            category="Backend",
+        ),
+        Technology(
+            name="PostgreSQL",
+            category="Database",
+        ),
+        Technology(
+            name="Docker",
+            category="DevOps",
+        ),
+        Technology(
+            name="React",
+            category="Frontend",
+        ),
+    ]
+
+    session.add_all(
+        technologies
+    )
+
+    session.commit()
+
+def seed_project_technologies(
+    session: Session,
+) -> None:
+    """
+    Seed project technology relations.
+    """
+
+    existing = session.exec(
+        select(ProjectTechnology)
+    ).first()
+
+    if existing:
+        return
+
+    project = session.exec(
+        select(Project)
+    ).first()
+
+    technologies = session.exec(
+        select(Technology)
+    ).all()
+
+    relations = [
+        ProjectTechnology(
+            project_id=project.id,
+            technology_id=tech.id,
+        )
+        for tech in technologies
+    ]
+
+    session.add_all(relations)
 
     session.commit()
