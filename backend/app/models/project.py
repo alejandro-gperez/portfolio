@@ -3,9 +3,13 @@ Project database model.
 """
 
 from typing import Optional
+from typing import TYPE_CHECKING
 
 from sqlmodel import Field
 from sqlmodel import SQLModel
+from sqlmodel import Relationship
+if TYPE_CHECKING:
+    from app.models.feature import Feature
 
 
 class Project(SQLModel, table=True):
@@ -31,3 +35,7 @@ class Project(SQLModel, table=True):
     github_url: str | None = None
 
     demo_url: str | None = None
+
+    features: list["Feature"] = Relationship(
+    back_populates="project"
+)

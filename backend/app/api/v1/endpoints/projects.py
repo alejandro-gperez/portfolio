@@ -3,50 +3,60 @@ Projects API endpoints.
 """
 
 from fastapi import APIRouter
+from fastapi import Depends
+
+from sqlmodel import Session
+
+from app.core.database import get_session
 
 from app.schemas.project import (
     FeatureResponse,
     ProjectResponse,
 )
 
+from app.services.project_service import (
+    ProjectService,
+)
+
 router = APIRouter()
 
 
-@router.get("/", response_model=list[ProjectResponse])
-def get_projects() -> list[ProjectResponse]:
+@router.get(
+    "/",
+    response_model=list[ProjectResponse],
+)
+def get_projects(
+    session: Session = Depends(get_session),
+) -> list[ProjectResponse]:
     """
     Retrieve featured portfolio projects.
 
     Returns:
         list[ProjectResponse]: Portfolio projects.
     """
+
+    projects = (
+        ProjectService.get_featured_projects(
+            session
+        )
+    )
+
     return [
         ProjectResponse(
-            id=1,
-            name="Portfolio SaaS",
-            description="Personal backend-focused portfolio platform.",
-            status="In Progress",
-            featured=True,
-            github_url="https://github.com/your-username/portfolio-saas",
-            demo_url=None,
-            stack=[
-                "FastAPI",
-                "PostgreSQL",
-                "React",
-            ],
+            id=project.id,
+            name=project.name,
+            description=project.description,
+            status=project.status,
+            featured=project.featured,
+            github_url=project.github_url,
+            demo_url=project.demo_url,
+            stack=[],
             features=[
                 FeatureResponse(
-                    name="REST API",
-                ),
-                FeatureResponse(
-                    name="GitHub Analytics",
-                ),
-                FeatureResponse(
-                    name="Event Tracking",
-                ),
-                FeatureResponse(
-                    name="Observability Dashboard",
-                ),
+                    name=feature.name
+                )
+                for feature in project.features
             ],
         )
+        for project in projects
     ]
