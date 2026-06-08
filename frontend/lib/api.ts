@@ -134,3 +134,29 @@ export async function getProfile(): Promise<Profile> {
 
   return response.json()
 }
+
+export interface GitHubLanguage {
+  language: string
+  bytes_of_code: number
+}
+
+export async function getGitHubLanguages(): Promise<
+  GitHubLanguage[]
+> {
+  const response = await fetch(
+    `${API_BASE}/github-languages`
+  )
+
+  if (!response.ok) {
+    throw new Error(
+      "Failed to fetch GitHub languages"
+    )
+  }
+
+  return response.json()
+}
+
+export interface TechnologyFootprint {
+  name: string
+  count: number
+}

@@ -3,31 +3,52 @@ GitHub metrics API endpoints.
 """
 
 from fastapi import APIRouter
+from fastapi import Depends
 
-from app.schemas.github_metric import GitHubMetricResponse
+from sqlmodel import Session
+
+from app.core.database import (
+    get_session,
+)
+
+from app.schemas.github_metric import (
+    GitHubMetricResponse,
+)
+
+from app.services.github_metric_service import (
+    GitHubMetricService,
+)
 
 router = APIRouter()
 
 
-@router.get("/", response_model=list[GitHubMetricResponse])
-def get_github_metrics() -> list[GitHubMetricResponse]:
+@router.get(
+    "/",
+    response_model=list[
+        GitHubMetricResponse
+    ],
+)
+def get_github_metrics(
+    session: Session = Depends(
+        get_session
+    ),
+) -> list[
+    GitHubMetricResponse
+]:
     """
     Retrieve GitHub analytics.
-
-    Returns:
-        list[GitHubMetricResponse]: GitHub statistics.
     """
+
+    metrics = (
+        GitHubMetricService.get_metrics(
+            session
+        )
+    )
+
     return [
         GitHubMetricResponse(
-            metric_name="Repositories",
-            metric_value=12,
-        ),
-        GitHubMetricResponse(
-            metric_name="Commits This Year",
-            metric_value=542,
-        ),
-        GitHubMetricResponse(
-            metric_name="Pull Requests",
-            metric_value=36,
-        ),
+            metric_name=metric.metric_name,
+            metric_value=metric.metric_value,
+        )
+        for metric in metrics
     ]

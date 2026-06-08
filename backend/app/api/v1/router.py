@@ -18,6 +18,7 @@ from app.api.v1.endpoints import (
     profile,
     projects,
     skills,
+    github_languages,
 )
 
 api_router = APIRouter()
@@ -62,4 +63,10 @@ api_router.include_router(
     events.router,
     prefix="/events",
     tags=["Events"],
+)
+
+api_router.include_router(
+    github_languages.router,
+    prefix="/github-languages",
+    tags=["GitHub Languages"],
 )

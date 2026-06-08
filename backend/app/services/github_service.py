@@ -128,50 +128,36 @@ class GitHubService:
         }
 
     @classmethod
-    def get_language_usage(
-        cls,
-    ) -> dict[str, int]:
+    def get_language_usage(cls) -> dict[str, int]:
         """
-        Aggregate language statistics across all repositories.
+        Aggregate language statistics across featured repositories.
 
         Returns:
-            dict[str, int]:
-                Language -> bytes of code.
+            dict[str, int]: Language -> bytes of code.
         """
+        repositories = cls.get_repositories()
+        featured_repositories = {
+            repo_name.strip()
+            for repo_name in settings.GITHUB_FEATURED_REPOS.split(",")
+        }
 
-        repositories = (
-            cls.get_repositories()
-        )
-
-        language_totals = defaultdict(
-            int
-        )
+        language_totals = defaultdict(int)
 
         for repo in repositories:
-            language_url = repo[
-                "languages_url"
-            ]
+            # Skip repositories that are not part of the portfolio's featured projects.
+            if repo["name"] not in featured_repositories:
+                continue
 
+            language_url = repo["languages_url"]
             response = requests.get(
                 language_url,
                 headers=cls._headers(),
                 timeout=10,
             )
-
             response.raise_for_status()
 
-            languages = (
-                response.json()
-            )
+            languages = response.json()
+            for language, bytes_of_code in languages.items():
+                language_totals[language] += bytes_of_code
 
-            for (
-                language,
-                bytes_of_code,
-            ) in languages.items():
-                language_totals[
-                    language
-                ] += bytes_of_code
-
-        return dict(
-            language_totals
-        )
+        return dict(language_totals)
