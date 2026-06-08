@@ -5,7 +5,7 @@ import { ArrowDown, Code2, Server, Database, FileJson, Network } from "lucide-re
 const flow = [
   {
     label: "React",
-    sub: "TypeScript · Vite",
+    sub: "TypeScript · Next.js",
     icon: Code2,
     note: "Renders the dashboard UI and emits client events.",
   },
@@ -27,7 +27,7 @@ const stack = [
   {
     title: "Frontend",
     icon: Code2,
-    items: ["React", "TypeScript", "Vite"],
+    items: ["React", "TypeScript", "Next.js"],
   },
   {
     title: "Backend",
