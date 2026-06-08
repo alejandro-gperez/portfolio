@@ -63,3 +63,18 @@ frontend/dist/
 
 # Vite
 vite.svg
+
+# TanStack Router
+routeTree.gen.ts
+
+# Bun cache
+.bun/
+
+.cache/
+
+*.tsbuildinfo
+
+frontend/.env
+frontend/.env.*
+
+frontend/.vercel/
