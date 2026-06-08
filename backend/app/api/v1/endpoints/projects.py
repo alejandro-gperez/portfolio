@@ -47,7 +47,10 @@ def get_projects(
             featured=project.featured,
             github_url=project.github_url,
             demo_url=project.demo_url,
-            stack=[],  # temporal
+            stack=[
+                technology.technology.name
+                for technology in project.technologies
+            ],
             features=[
                 FeatureResponse(
                     name=feature.name
