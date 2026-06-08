@@ -16,6 +16,8 @@ from app.core.config import settings
 from contextlib import asynccontextmanager
 from app.core.database import create_db_and_tables
 
+from fastapi.middleware.cors import CORSMiddleware
+
 # ------------------------------------------------------------------
 # Application Initialization
 # ------------------------------------------------------------------
@@ -33,6 +35,20 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
     description=settings.PROJECT_DESCRIPTION,
     version=settings.VERSION,
+)
+
+# --------------------------------------------------
+# Cross-Origin Resource Sharing (CORS)
+# --------------------------------------------------
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # ------------------------------------------------------------------
