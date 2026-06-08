@@ -17,4 +17,4 @@ class ProfileResponse(BaseModel):
     linkedin_url: HttpUrl
     email: str
     location: str
-    profile_image_url: HttpUrl
+    profile_image_url: HttpUrl | None = None

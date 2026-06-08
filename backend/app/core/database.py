@@ -28,8 +28,6 @@ from app.models.project_technology import (
     ProjectTechnology,
 )
 
-from sqlmodel import Session
-
 from app.core.seed import (
     seed_profile,
     seed_skills,

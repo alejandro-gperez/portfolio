@@ -36,4 +36,4 @@ class Profile(SQLModel, table=True):
 
     location: str
 
-    profile_image_url: str
+    profile_image_url: str | None = None

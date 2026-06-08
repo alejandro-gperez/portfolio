@@ -42,5 +42,9 @@ def get_profile(
         linkedin_url=profile.linkedin_url,
         email=profile.email,
         location=profile.location,
-        profile_image_url=profile.profile_image_url,
+        profile_image_url=(
+            profile.profile_image_url
+            if profile.profile_image_url
+            else None
+        ),
     )

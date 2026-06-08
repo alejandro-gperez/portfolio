@@ -35,14 +35,17 @@ def seed_profile(session: Session) -> None:
         return
 
     profile = Profile(
-        name="Alejandro Perez",
-        title="Backend Engineer",
-        bio="Building APIs, data pipelines and scalable systems.",
-        github_url="https://github.com/your-user",
-        linkedin_url="https://linkedin.com/in/your-user",
-        email="your-email@example.com",
-        location="Guatemala",
-        profile_image_url="https://example.com/profile.jpg",
+    name="Alejandro Gabriel Pérez Muñoz",
+    title="Backend Developer & Data Engineering Enthusiast",
+    bio=(
+        "Building backend systems, data pipelines, "
+        "and event-driven applications."
+    ),
+    github_url="https://github.com/alejandro-gperez",
+    linkedin_url="https://www.linkedin.com/in/alejandro-gabriel-pérez-muñoz-3b664a394",
+    email="alejandrogpmunoz@gmail.com",
+    location="Guatemala",
+    profile_image_url=None, ##CAMBIAR
     )
 
     session.add(profile)
@@ -61,24 +64,88 @@ def seed_skills(session: Session) -> None:
         return
 
     skills = [
+        # Backend
         Skill(
-            name="FastAPI",
+            name="Python",
             category="Backend",
             level=5,
         ),
+        Skill(
+            name="Java",
+            category="Backend",
+            level=4,
+        ),
+        Skill(
+            name="Go",
+            category="Backend",
+            level=4,
+        ),
+        Skill(
+            name="TypeScript",
+            category="Backend",
+            level=4,
+        ),
+
+        # Databases
         Skill(
             name="PostgreSQL",
             category="Database",
             level=4,
         ),
         Skill(
+            name="Neo4j",
+            category="Database",
+            level=4,
+        ),
+        Skill(
+            name="Supabase",
+            category="Database",
+            level=4,
+        ),
+
+        # Data
+        Skill(
+            name="Celonis",
+            category="Data",
+            level=4,
+        ),
+        Skill(
+            name="Process Mining",
+            category="Data",
+            level=4,
+        ),
+        Skill(
+            name="Data Integration",
+            category="Data",
+            level=4,
+        ),
+
+        # DevOps
+        Skill(
             name="Docker",
             category="DevOps",
             level=4,
         ),
         Skill(
-            name="Pandas",
-            category="Data",
+            name="RabbitMQ",
+            category="DevOps",
+            level=4,
+        ),
+        Skill(
+            name="Git",
+            category="DevOps",
+            level=4,
+        ),
+
+        # Frameworks
+        Skill(
+            name="FastAPI",
+            category="Frameworks",
+            level=5,
+        ),
+        Skill(
+            name="Spring Boot",
+            category="Frameworks",
             level=4,
         ),
     ]
@@ -99,45 +166,192 @@ def seed_projects(session: Session) -> None:
     if existing:
         return
 
-    project = Project(
-        name="Portfolio SaaS",
-        description=(
-            "Backend-focused portfolio platform."
+    projects = [
+        Project(
+            name="Intent Classification System",
+            description=(
+                "Event-driven architecture featuring DistilBERT fine-tuning "
+                "with RabbitMQ workers and dockerized services for "
+                "asynchronous processing."
+            ),
+            status="Completed",
+            featured=True,
+            github_url=(
+                "https://github.com/alejandro-gperez/"
+                "intent-classification-with-transformers"
+            ),
         ),
-        status="In Progress",
-        featured=True,
-        github_url=(
-            "https://github.com/your-user/portfolio-saas"
+        Project(
+            name="Series Recommendation System",
+            description=(
+                "Graph-based recommendation system with a REST API "
+                "delivering personalized suggestions optimized "
+                "through Cypher queries."
+            ),
+            status="Completed",
+            featured=True,
+            github_url=(
+                "https://github.com/esteban-dlp/recomendaciones"
+            ),
         ),
-    )
+        Project(
+            name="WhereNow",
+            description=(
+                "Mobile application built with MVVM architecture, "
+                "Firebase authentication, real-time synchronization "
+                "and social features."
+            ),
+            status="Completed",
+            featured=True,
+            github_url=(
+                "https://github.com/mariale-sierra/Wherenow"
+            ),
+        ),
+        Project(
+            name="Portfolio SaaS",
+            description=(
+                "Backend-focused portfolio platform powered by "
+                "FastAPI and PostgreSQL featuring event tracking, "
+                "analytics and API documentation."
+            ),
+            status="In Progress",
+            featured=True,
+            github_url=(
+                "https://github.com/alejandro-gperez/portfolio"
+            ),
+        ),
+    ]
 
-    session.add(project)
+    session.add_all(projects)
 
     session.commit()
 
-    session.refresh(project)
+    projects_by_name = {
+        project.name: project
+        for project in session.exec(
+            select(Project)
+        ).all()
+    }
 
     features = [
+        # Intent Classification System
         Feature(
-            project_id=project.id,
+            project_id=projects_by_name[
+                "Intent Classification System"
+            ].id,
+            name="DistilBERT Fine-Tuning",
+        ),
+        Feature(
+            project_id=projects_by_name[
+                "Intent Classification System"
+            ].id,
+            name="Event-Driven Architecture",
+        ),
+        Feature(
+            project_id=projects_by_name[
+                "Intent Classification System"
+            ].id,
+            name="RabbitMQ Workers",
+        ),
+        Feature(
+            project_id=projects_by_name[
+                "Intent Classification System"
+            ].id,
+            name="Asynchronous Processing",
+        ),
+        Feature(
+            project_id=projects_by_name[
+                "Intent Classification System"
+            ].id,
+            name="Dockerized Services",
+        ),
+
+        # Series Recommendation System
+        Feature(
+            project_id=projects_by_name[
+                "Series Recommendation System"
+            ].id,
+            name="Graph-Based Recommendations",
+        ),
+        Feature(
+            project_id=projects_by_name[
+                "Series Recommendation System"
+            ].id,
             name="REST API",
         ),
         Feature(
-            project_id=project.id,
-            name="GitHub Analytics",
+            project_id=projects_by_name[
+                "Series Recommendation System"
+            ].id,
+            name="Cypher Query Optimization",
         ),
         Feature(
-            project_id=project.id,
+            project_id=projects_by_name[
+                "Series Recommendation System"
+            ].id,
+            name="Personalized Suggestions",
+        ),
+
+        # WhereNow
+        Feature(
+            project_id=projects_by_name[
+                "WhereNow"
+            ].id,
+            name="MVVM Architecture",
+        ),
+        Feature(
+            project_id=projects_by_name[
+                "WhereNow"
+            ].id,
+            name="Firebase Authentication",
+        ),
+        Feature(
+            project_id=projects_by_name[
+                "WhereNow"
+            ].id,
+            name="Real-Time Data",
+        ),
+        Feature(
+            project_id=projects_by_name[
+                "WhereNow"
+            ].id,
+            name="Social Features",
+        ),
+
+        # Portfolio SaaS
+        Feature(
+            project_id=projects_by_name[
+                "Portfolio SaaS"
+            ].id,
+            name="FastAPI Backend",
+        ),
+        Feature(
+            project_id=projects_by_name[
+                "Portfolio SaaS"
+            ].id,
+            name="PostgreSQL",
+        ),
+        Feature(
+            project_id=projects_by_name[
+                "Portfolio SaaS"
+            ].id,
+            name="Swagger Documentation",
+        ),
+        Feature(
+            project_id=projects_by_name[
+                "Portfolio SaaS"
+            ].id,
             name="Event Tracking",
         ),
         Feature(
-            project_id=project.id,
-            name="Observability Dashboard",
+            project_id=projects_by_name[
+                "Portfolio SaaS"
+            ].id,
+            name="GitHub Analytics",
         ),
     ]
 
     session.add_all(features)
-
     session.commit()
 
 def seed_events(session: Session) -> None:
@@ -153,26 +367,39 @@ def seed_events(session: Session) -> None:
         return
 
     events = [
-        Event(
-            event_type="PROJECT_CREATED",
-            description="Portfolio SaaS project initialized.",
+    Event(
+        event_type="INTERNSHIP_STARTED",
+        description=(
+            "Started Data Analyst & Process Mining Internship "
+            "at Embotelladora La Mariposa."
         ),
-        Event(
-            event_type="DEPLOYMENT",
-            description="Initial API deployment completed.",
+    ),
+    Event(
+        event_type="TEACHING_ASSISTANT",
+        description=(
+            "Began working as Teaching Assistant for "
+            "Algorithms and Programming."
         ),
-        Event(
-            event_type="DATABASE_CONNECTED",
-            description="PostgreSQL integration completed.",
+    ),
+    Event(
+        event_type="PROJECT_COMPLETED",
+        description=(
+            "Developed Intent Classification System "
+            "using DistilBERT and RabbitMQ."
         ),
-        Event(
-            event_type="FEATURE_ADDED",
-            description="Project-feature relationships implemented.",
+    ),
+    Event(
+        event_type="PROJECT_COMPLETED",
+        description=(
+            "Built Graph-Based Series Recommendation System."
         ),
-        Event(
-            event_type="API_RELEASE",
-            description="Version 1 API endpoints released.",
+    ),
+    Event(
+        event_type="PROJECT_CREATED",
+        description=(
+            "Started development of Portfolio SaaS."
         ),
+    ),
     ]
 
     session.add_all(events)
@@ -192,22 +419,22 @@ def seed_metrics(session: Session) -> None:
         return
 
     metrics = [
-        Metric(
-            name="Projects",
-            value=1,
-        ),
-        Metric(
-            name="APIs",
-            value=6,
-        ),
-        Metric(
-            name="Databases",
-            value=1,
-        ),
-        Metric(
-            name="Years Coding",
-            value=3,
-        ),
+    Metric(
+        name="Projects",
+        value=4,
+    ),
+    Metric(
+        name="Programming Languages",
+        value=7,
+    ),
+    Metric(
+        name="Databases",
+        value=5,
+    ),
+    Metric(
+        name="Current Roles",
+        value=2,
+    ),
     ]
 
     session.add_all(metrics)
@@ -267,11 +494,51 @@ def seed_technologies(
 
     technologies = [
         Technology(
-            name="FastAPI",
+            name="Python",
             category="Backend",
         ),
         Technology(
+            name="Java",
+            category="Backend",
+        ),
+        Technology(
+            name="Go",
+            category="Backend",
+        ),
+        Technology(
+            name="TypeScript",
+            category="Backend",
+        ),
+        Technology(
+            name="FastAPI",
+            category="Framework",
+        ),
+        Technology(
+            name="Spring Boot",
+            category="Framework",
+        ),
+        Technology(
+            name="Angular",
+            category="Framework",
+        ),
+        Technology(
+            name="Kotlin",
+            category="Mobile",
+        ),
+        Technology(
+            name="Jetpack Compose",
+            category="Mobile",
+        ),
+        Technology(
             name="PostgreSQL",
+            category="Database",
+        ),
+        Technology(
+            name="Neo4j",
+            category="Database",
+        ),
+        Technology(
+            name="Supabase",
             category="Database",
         ),
         Technology(
@@ -279,15 +546,26 @@ def seed_technologies(
             category="DevOps",
         ),
         Technology(
-            name="React",
-            category="Frontend",
+            name="RabbitMQ",
+            category="DevOps",
+        ),
+        Technology(
+            name="Firebase",
+            category="Cloud",
+        ),
+        Technology(
+            name="Transformers",
+            category="AI/ML",
+        ),
+        Technology(
+            name="Celonis",
+            category="Data",
         ),
     ]
 
     session.add_all(
         technologies
     )
-
     session.commit()
 
 def seed_project_technologies(
@@ -304,22 +582,141 @@ def seed_project_technologies(
     if existing:
         return
 
-    project = session.exec(
-        select(Project)
-    ).first()
+    projects = {
+        project.name: project
+        for project in session.exec(
+            select(Project)
+        ).all()
+    }
 
-    technologies = session.exec(
-        select(Technology)
-    ).all()
+    technologies = {
+        technology.name: technology
+        for technology in session.exec(
+            select(Technology)
+        ).all()
+    }
 
     relations = [
+        # Intent Classification System
         ProjectTechnology(
-            project_id=project.id,
-            technology_id=tech.id,
-        )
-        for tech in technologies
+            project_id=projects[
+                "Intent Classification System"
+            ].id,
+            technology_id=technologies[
+                "Python"
+            ].id,
+        ),
+        ProjectTechnology(
+            project_id=projects[
+                "Intent Classification System"
+            ].id,
+            technology_id=technologies[
+                "Docker"
+            ].id,
+        ),
+        ProjectTechnology(
+            project_id=projects[
+                "Intent Classification System"
+            ].id,
+            technology_id=technologies[
+                "RabbitMQ"
+            ].id,
+        ),
+        ProjectTechnology(
+            project_id=projects[
+                "Intent Classification System"
+            ].id,
+            technology_id=technologies[
+                "Transformers"
+            ].id,
+        ),
+
+        # Series Recommendation System
+        ProjectTechnology(
+            project_id=projects[
+                "Series Recommendation System"
+            ].id,
+            technology_id=technologies[
+                "Java"
+            ].id,
+        ),
+        ProjectTechnology(
+            project_id=projects[
+                "Series Recommendation System"
+            ].id,
+            technology_id=technologies[
+                "Spring Boot"
+            ].id,
+        ),
+        ProjectTechnology(
+            project_id=projects[
+                "Series Recommendation System"
+            ].id,
+            technology_id=technologies[
+                "Neo4j"
+            ].id,
+        ),
+        ProjectTechnology(
+            project_id=projects[
+                "Series Recommendation System"
+            ].id,
+            technology_id=technologies[
+                "Angular"
+            ].id,
+        ),
+
+        # WhereNow
+        ProjectTechnology(
+            project_id=projects[
+                "WhereNow"
+            ].id,
+            technology_id=technologies[
+                "Kotlin"
+            ].id,
+        ),
+        ProjectTechnology(
+            project_id=projects[
+                "WhereNow"
+            ].id,
+            technology_id=technologies[
+                "Jetpack Compose"
+            ].id,
+        ),
+        ProjectTechnology(
+            project_id=projects[
+                "WhereNow"
+            ].id,
+            technology_id=technologies[
+                "Firebase"
+            ].id,
+        ),
+
+        # Portfolio SaaS
+        ProjectTechnology(
+            project_id=projects[
+                "Portfolio SaaS"
+            ].id,
+            technology_id=technologies[
+                "FastAPI"
+            ].id,
+        ),
+        ProjectTechnology(
+            project_id=projects[
+                "Portfolio SaaS"
+            ].id,
+            technology_id=technologies[
+                "PostgreSQL"
+            ].id,
+        ),
+        ProjectTechnology(
+            project_id=projects[
+                "Portfolio SaaS"
+            ].id,
+            technology_id=technologies[
+                "Docker"
+            ].id,
+        ),
     ]
 
     session.add_all(relations)
-
     session.commit()
