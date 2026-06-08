@@ -10,6 +10,8 @@ from app.models.skill import Skill
 from app.models.project import Project
 from app.models.feature import Feature
 from app.models.event import Event
+from app.models.metric import Metric
+from app.models.github_metric import GitHubMetric
 
 
 def seed_profile(session: Session) -> None:
@@ -166,5 +168,77 @@ def seed_events(session: Session) -> None:
     ]
 
     session.add_all(events)
+
+    session.commit()
+
+def seed_metrics(session: Session) -> None:
+    """
+    Seed dashboard metrics.
+    """
+
+    existing = session.exec(
+        select(Metric)
+    ).first()
+
+    if existing:
+        return
+
+    metrics = [
+        Metric(
+            name="Projects",
+            value=1,
+        ),
+        Metric(
+            name="APIs",
+            value=6,
+        ),
+        Metric(
+            name="Databases",
+            value=1,
+        ),
+        Metric(
+            name="Years Coding",
+            value=3,
+        ),
+    ]
+
+    session.add_all(metrics)
+
+    session.commit()
+
+def seed_github_metrics(
+    session: Session,
+) -> None:
+    """
+    Seed GitHub analytics metrics.
+    """
+
+    existing = session.exec(
+        select(GitHubMetric)
+    ).first()
+
+    if existing:
+        return
+
+    metrics = [
+        GitHubMetric(
+            metric_name="Repositories",
+            metric_value=12,
+        ),
+        GitHubMetric(
+            metric_name="Commits This Year",
+            metric_value=542,
+        ),
+        GitHubMetric(
+            metric_name="Pull Requests",
+            metric_value=36,
+        ),
+        GitHubMetric(
+            metric_name="Stars",
+            metric_value=18,
+        ),
+    ]
+
+    session.add_all(metrics)
 
     session.commit()

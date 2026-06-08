@@ -17,6 +17,8 @@ from app.models.skill import Skill
 from app.models.project import Project
 from app.models.feature import Feature
 from app.models.event import Event
+from app.models.metric import Metric
+from app.models.github_metric import GitHubMetric
 
 from sqlmodel import Session
 
@@ -25,6 +27,8 @@ from app.core.seed import (
     seed_skills,
     seed_projects,
     seed_events,
+    seed_metrics,
+    seed_github_metrics,
 )
 
 engine = create_engine(
@@ -43,6 +47,8 @@ def create_db_and_tables() -> None:
         seed_skills(session)
         seed_projects(session)
         seed_events(session)
+        seed_metrics(session)
+        seed_github_metrics(session)
 
 
 def get_session():
