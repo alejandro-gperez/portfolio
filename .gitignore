@@ -78,3 +78,13 @@ frontend/.env
 frontend/.env.*
 
 frontend/.vercel/
+
+# Next.js
+.next/
+out/
+
+# Vercel
+.vercel/
+
+# Old frontend experiments
+frontend-old/
